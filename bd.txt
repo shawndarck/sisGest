@@ -1,0 +1,290 @@
+USE [master]
+GO
+/****** Object:  Database [BDS_SisGest]    Script Date: 13/12/2021 11:26:11 a. m. ******/
+CREATE DATABASE [BDS_SisGest]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'BDS_SisGest', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS01\MSSQL\DATA\BDS_SisGest.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'BDS_SisGest_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS01\MSSQL\DATA\BDS_SisGest_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [BDS_SisGest] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [BDS_SisGest].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [BDS_SisGest] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [BDS_SisGest] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [BDS_SisGest] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [BDS_SisGest] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [BDS_SisGest] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [BDS_SisGest] SET  MULTI_USER 
+GO
+ALTER DATABASE [BDS_SisGest] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [BDS_SisGest] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [BDS_SisGest] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [BDS_SisGest] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [BDS_SisGest] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [BDS_SisGest] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [BDS_SisGest] SET QUERY_STORE = OFF
+GO
+USE [BDS_SisGest]
+GO
+/****** Object:  Table [dbo].[TBL_Alumno]    Script Date: 13/12/2021 11:26:15 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TBL_Alumno](
+	[ALM_Nombres] [varchar](50) NULL,
+	[ALM_Apellidos] [varchar](50) NULL,
+	[ALM_Creditos] [int] NULL,
+	[PK_ALM_IdAlumno] [int] IDENTITY(1,1) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[PK_ALM_IdAlumno] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TBL_Materia]    Script Date: 13/12/2021 11:26:15 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TBL_Materia](
+	[MTR_Nombre] [nvarchar](50) NULL,
+	[MTR_Modulo] [varchar](50) NULL,
+	[MTR_Curso] [varchar](50) NULL,
+	[FK_PGM_IdPrograma] [int] NULL,
+	[PK_MTR_IdMateria] [int] IDENTITY(1,1) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[PK_MTR_IdMateria] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TBL_Materia_Has_Alumno]    Script Date: 13/12/2021 11:26:15 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TBL_Materia_Has_Alumno](
+	[FK_MTR_IdMateria] [int] NULL,
+	[FK_ALM_IdAlumno] [int] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TBL_Profesor]    Script Date: 13/12/2021 11:26:15 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TBL_Profesor](
+	[PSF_Nombres] [nvarchar](50) NULL,
+	[PSF_Apellidos] [nvarchar](50) NULL,
+	[PSF_Especialidad] [nvarchar](50) NULL,
+	[PSF_Cargo] [nvarchar](50) NULL,
+	[FK_PGM_IdPrograma] [int] NULL,
+	[PK_PFS_IdProfesor] [int] IDENTITY(1,1) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[PK_PFS_IdProfesor] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TBL_Programa]    Script Date: 13/12/2021 11:26:15 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TBL_Programa](
+	[PGM_Nombre] [nvarchar](50) NULL,
+	[PGM_Duracion] [int] NULL,
+	[PGM_Costos] [int] NULL,
+	[PGM_Aula] [nvarchar](50) NULL,
+	[PK_PGM_IdPrograma] [int] IDENTITY(1,1) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[PK_PGM_IdPrograma] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[TBL_Alumno] ON 
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Julian Camilo', N'Paredes', 50, 1)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Andres', N'Medina', 25, 2)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Jose ', N'Vasquez', 14, 3)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Fabian', N'Suarez', 11, 4)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Juan', N'Castillo', 50, 5)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Liliana', N'Hoyos', 50, 6)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Jenny', N'Fonseca', 3, 7)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Alberto', N'Carrasquilla', 5, 8)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Juan', N'Galan', 7, 9)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Jhon', N'Castro', 35, 10)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Andrea', N'Castiblanco', 11, 11)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Antonio', N'Perez', 32, 12)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Alberto', N'Guerrero', 43, 13)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Jorge', N'Hoyos', 50, 14)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Daniela', N'Acuña', 23, 15)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Sergio', N'Nuñez', 40, 16)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Gregorio ', N'Hernandez', 23, 17)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Cristian', N'Gomez', 49, 18)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Omar', N'Garcia', 9, 19)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Diomedes', N'Diaz', 10, 20)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Jorge', N'Oñate', 11, 21)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Jesus', N'Gaitan', 12, 22)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Mauricio', N'Gonzalez', 15, 23)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Fabricio', N'Artunduaga', 20, 24)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Nestor ', N'Morales', 22, 25)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Felipe', N'Zuleta', 32, 26)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Carlos', N'Slim', 35, 27)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'David', N'Reinoso', 43, 28)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Sergio', N'Fajardo', 49, 29)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Mario', N'Hernandez', 50, 30)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Carlos', N'Castaño', 32, 31)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Federico', N'Jimenez', 12, 32)
+GO
+INSERT [dbo].[TBL_Alumno] ([ALM_Nombres], [ALM_Apellidos], [ALM_Creditos], [PK_ALM_IdAlumno]) VALUES (N'Jose', N'Perez', 2, 33)
+GO
+SET IDENTITY_INSERT [dbo].[TBL_Alumno] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TBL_Materia] ON 
+GO
+INSERT [dbo].[TBL_Materia] ([MTR_Nombre], [MTR_Modulo], [MTR_Curso], [FK_PGM_IdPrograma], [PK_MTR_IdMateria]) VALUES (N'Matematicas', N'2', N'11', 1, 1)
+GO
+INSERT [dbo].[TBL_Materia] ([MTR_Nombre], [MTR_Modulo], [MTR_Curso], [FK_PGM_IdPrograma], [PK_MTR_IdMateria]) VALUES (N'Desarrollo', N'1', N'11', 2, 2)
+GO
+INSERT [dbo].[TBL_Materia] ([MTR_Nombre], [MTR_Modulo], [MTR_Curso], [FK_PGM_IdPrograma], [PK_MTR_IdMateria]) VALUES (N'Analisis', N'4', N'10', 3, 3)
+GO
+INSERT [dbo].[TBL_Materia] ([MTR_Nombre], [MTR_Modulo], [MTR_Curso], [FK_PGM_IdPrograma], [PK_MTR_IdMateria]) VALUES (N'Algoritmo', N'2', N'11', 4, 4)
+GO
+INSERT [dbo].[TBL_Materia] ([MTR_Nombre], [MTR_Modulo], [MTR_Curso], [FK_PGM_IdPrograma], [PK_MTR_IdMateria]) VALUES (N'Literatura', N'2', N'11', 5, 5)
+GO
+SET IDENTITY_INSERT [dbo].[TBL_Materia] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TBL_Profesor] ON 
+GO
+INSERT [dbo].[TBL_Profesor] ([PSF_Nombres], [PSF_Apellidos], [PSF_Especialidad], [PSF_Cargo], [FK_PGM_IdPrograma], [PK_PFS_IdProfesor]) VALUES (N'Jose Luis', N'Sarta', N'Desarrollo', N'Profesor', 1, 1)
+GO
+INSERT [dbo].[TBL_Profesor] ([PSF_Nombres], [PSF_Apellidos], [PSF_Especialidad], [PSF_Cargo], [FK_PGM_IdPrograma], [PK_PFS_IdProfesor]) VALUES (N'Eulises', N'Santanilla', N'Ciencias sociales', N'Coordinador', 2, 2)
+GO
+INSERT [dbo].[TBL_Profesor] ([PSF_Nombres], [PSF_Apellidos], [PSF_Especialidad], [PSF_Cargo], [FK_PGM_IdPrograma], [PK_PFS_IdProfesor]) VALUES (N'Carlos ', N'Centeno', N'Politica', N'Profesor', 3, 3)
+GO
+INSERT [dbo].[TBL_Profesor] ([PSF_Nombres], [PSF_Apellidos], [PSF_Especialidad], [PSF_Cargo], [FK_PGM_IdPrograma], [PK_PFS_IdProfesor]) VALUES (N'Carmen', N'Fonseca', N'Literatura', N'Profesor', 4, 4)
+GO
+INSERT [dbo].[TBL_Profesor] ([PSF_Nombres], [PSF_Apellidos], [PSF_Especialidad], [PSF_Cargo], [FK_PGM_IdPrograma], [PK_PFS_IdProfesor]) VALUES (N'Hermes', N'Hoyola', N'Matematicas', NULL, 5, 5)
+GO
+SET IDENTITY_INSERT [dbo].[TBL_Profesor] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TBL_Programa] ON 
+GO
+INSERT [dbo].[TBL_Programa] ([PGM_Nombre], [PGM_Duracion], [PGM_Costos], [PGM_Aula], [PK_PGM_IdPrograma]) VALUES (N'Primero', 12, 5000, N'1', 1)
+GO
+INSERT [dbo].[TBL_Programa] ([PGM_Nombre], [PGM_Duracion], [PGM_Costos], [PGM_Aula], [PK_PGM_IdPrograma]) VALUES (N'Segudo', 11, 1000, N'1', 2)
+GO
+INSERT [dbo].[TBL_Programa] ([PGM_Nombre], [PGM_Duracion], [PGM_Costos], [PGM_Aula], [PK_PGM_IdPrograma]) VALUES (N'Tercero', 14, 2000, N'2', 3)
+GO
+INSERT [dbo].[TBL_Programa] ([PGM_Nombre], [PGM_Duracion], [PGM_Costos], [PGM_Aula], [PK_PGM_IdPrograma]) VALUES (N'Cuarto', 12, 1000, N'1', 4)
+GO
+INSERT [dbo].[TBL_Programa] ([PGM_Nombre], [PGM_Duracion], [PGM_Costos], [PGM_Aula], [PK_PGM_IdPrograma]) VALUES (N'Quinto', 12, 12000, N'1', 5)
+GO
+INSERT [dbo].[TBL_Programa] ([PGM_Nombre], [PGM_Duracion], [PGM_Costos], [PGM_Aula], [PK_PGM_IdPrograma]) VALUES (N'Sexto', 12, 1000, N'1', 6)
+GO
+SET IDENTITY_INSERT [dbo].[TBL_Programa] OFF
+GO
+ALTER TABLE [dbo].[TBL_Materia]  WITH CHECK ADD FOREIGN KEY([FK_PGM_IdPrograma])
+REFERENCES [dbo].[TBL_Programa] ([PK_PGM_IdPrograma])
+GO
+ALTER TABLE [dbo].[TBL_Materia_Has_Alumno]  WITH CHECK ADD FOREIGN KEY([FK_ALM_IdAlumno])
+REFERENCES [dbo].[TBL_Alumno] ([PK_ALM_IdAlumno])
+GO
+ALTER TABLE [dbo].[TBL_Materia_Has_Alumno]  WITH CHECK ADD FOREIGN KEY([FK_MTR_IdMateria])
+REFERENCES [dbo].[TBL_Materia] ([PK_MTR_IdMateria])
+GO
+ALTER TABLE [dbo].[TBL_Profesor]  WITH CHECK ADD FOREIGN KEY([FK_PGM_IdPrograma])
+REFERENCES [dbo].[TBL_Programa] ([PK_PGM_IdPrograma])
+GO
+USE [master]
+GO
+ALTER DATABASE [BDS_SisGest] SET  READ_WRITE 
+GO
